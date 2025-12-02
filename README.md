@@ -50,5 +50,14 @@ This project is structured for portfolio display, showcasing **clean separation 
    ```sql
    CREATE DATABASE bank_management_system_db;
 Configure Credentials
-Update the database connection in bank_management_system/app.py:
+
+## Configure Credentials
+
+Open `bank_management_system/app.py` and update the database connection details:
+
+```python
+app.config['MYSQL_USER'] = 'your_mysql_user'
+app.config['MYSQL_PASSWORD'] = 'your_mysql_password'  # <-- CHANGE THIS
+app.config['MYSQL_DB'] = 'bank_management_system_db'
+
 
