@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMS - Login & Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            padding: 20px;
+        }
+
+        .container {
+            position: relative;
+            width: 850px;
+            height: 550px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .container.active .signin {
+            transform: translateX(-100%);
+        }
+
+        .container.active .signup {
+            transform: translateX(0%);
+        }
+
+        .form-box {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            background: white;
+            transition: 0.6s ease-in-out;
+        }
+
+        .signin {
+            left: 0;
+            border-radius: 20px 0 0 20px;
+            z-index: 2;
+        }
+
+        .signup {
+            left: 50%;
+            border-radius: 0 20px 20px 0;
+            z-index: 1;
+            transform: translateX(100%);
+        }
+
+        .welcome-box {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            color: white;
+            text-align: center;
+            transition: 0.6s ease-in-out;
+        }
+
+        .welcome-signin {
+            right: 0;
+            border-radius: 0 20px 20px 0;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        }
+
+        .welcome-signup {
+            left: 0;
+            border-radius: 20px 0 0 20px;
+            background: linear-gradient(45deg, #4776E6, #8E54E9);
+            transform: translateX(-100%);
+        }
+
+        .container.active .welcome-signup {
+            transform: translateX(0%);
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .welcome-box h2 {
+            color: white;
+            font-size: 36px;
+        }
+
+        .welcome-box p {
+            margin-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border: none;
+            outline: none;
+            background: #f0f0f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            background: #e0e0e0;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: #777;
+            font-size: 18px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 75, 43, 0.6);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 2px solid white;
+            margin-top: 15px;
+        }
+
+        .toggle-btn:hover {
+            background: white;
+            color: #ff4b2b;
+        }
+
+        .switch-text {
+            margin-top: 25px;
+            text-align: center;
+            color: #777;
+        }
+
+        .switch-text a {
+            color: #ff4b2b;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .animation {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .animation span {
+            width: 10px;
+            height: 10px;
+            background: #ff4b2b;
+            border-radius: 50%;
+            margin: 0 5px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .animation span:nth-child(2) {
+            animation-delay: 0.2s;
+            background: #4776E6;
+        }
+
+        .animation span:nth-child(3) {
+            animation-delay: 0.4s;
+            background: #8E54E9;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-15px);
+            }
+        }
+
+        .form-box.Register .animation {
+            transform: translateX(120%);
+            transition: .7s ease;
+            opacity: 0;
+            filter: blur(10px);
+        }
+
+        .container.active .animation {
+            transform: translateX(0%);
+            opacity: 1;
+            transition-delay: calc(.1s * var(--li));
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+            background: #f0f0f0;
+            color: #777;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: #ff4b2b;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                width: 90%;
+                height: auto;
+                max-width: 550px;
+            }
+            
+            .form-box, .welcome-box {
+                position: relative;
+                width: 100%;
+                left: 0;
+                border-radius: 20px;
+                padding: 40px;
+            }
+            
+            .welcome-box {
+                display: none;
+            }
+            
+            .signup {
+                transform: translateX(0);
+                display: none;
+            }
+            
+            .container.active .signin {
+                display: none;
+            }
+            
+            .container.active .signup {
+                display: flex;
+                transform: translateX(0);
+            }
+        }
+    </style>   
+</head>
+<body>
+    <div class="container">
+        <!-- Flash Messages -->
+        <div class="flash-messages" style="position:absolute;top:10px;width:100%;text-align:center;z-index:10;">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" style="color:white;background:rgba(255,0,0,0.7);padding:10px;border-radius:5px;margin:5px auto;display:inline-block;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Sign In Form -->
+        <div class="form-box signin">
+            <form action="{{ url_for('login') }}" method="POST">
+                <h2>Login</h2>
+                <div class="input-box">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="switch-text">
+                    Don't have an account? <a id="signup-link">Sign Up</a>
+                </div>
+            </form>
+            <div class="animation">
+                <span style="--li:1"></span>
+                <span style="--li:2"></span>
+                <span style="--li:3"></span>
+            </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="form-box signup">
+            <form action="{{ url_for('register') }}" method="POST">
+                <h2>Register</h2>
+                <div class="input-box">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <div class="switch-text">
+                    Already have an account? <a id="signin-link">Sign In</a>
+                </div>
+            </form>
+            <div class="animation">
+                <span style="--li:1"></span>
+                <span style="--li:2"></span>
+                <span style="--li:3"></span>
+            </div>
+        </div>
+
+        <!-- Welcome Messages -->
+        <div class="welcome-box welcome-signin">
+            <h2>Bank Management System</h2>
+            <p>Welcome back! Manage your accounts securely and efficiently. We're here to support you anytime.</p>
+            <button class="btn toggle-btn" id="welcome-signup-btn">Create Account</button>
+        </div>
+
+        <div class="welcome-box welcome-signup">
+            <h2>Bank Management System</h2>
+            <p>Join us today and experience smooth, secure, and reliable banking services tailored for you.</p>
+            <button class="btn toggle-btn" id="welcome-signin-btn">Already a Member? Sign In</button>
+        </div>
+    </div>
+
+    <script>
+        const container = document.querySelector('.container');
+        const signupLink = document.getElementById('signup-link');
+        const signinLink = document.getElementById('signin-link');
+        const welcomeSignupBtn = document.getElementById('welcome-signup-btn');
+        const welcomeSigninBtn = document.getElementById('welcome-signin-btn');
+
+        signupLink.addEventListener('click', () => container.classList.add('active'));
+        signinLink.addEventListener('click', () => container.classList.remove('active'));
+        welcomeSignupBtn.addEventListener('click', () => container.classList.add('active'));
+        welcomeSigninBtn.addEventListener('click', () => container.classList.remove('active'));
+    </script>
+</body>
+</html>

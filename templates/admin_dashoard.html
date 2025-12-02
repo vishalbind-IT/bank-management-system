@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="{{ url_for('admin_dashboard') }}" class="logo">BMS Admin</a>
+                <div class="nav-links">
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <h1>Welcome, Admin ({{ session.username }})</h1>
+        
+        <!-- Account Creation Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Create New Client Account</h2>
+            </div>
+            <form action="{{ url_for('create_account') }}" method="POST">
+                <div class="card-grid">
+                    <div class="form-group">
+                        <label for="new_username">Client Username (Must exist)</label>
+                        <input type="text" id="new_username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="initial_balance">Initial Balance</label>
+                        <input type="number" id="initial_balance" name="initial_balance" step="0.01" min="0" value="0.00" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+        </div>
+
+        <!-- All Accounts Management -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Client Accounts Overview ({{ accounts|length }})</h2>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Account Holder</th>
+                        <th>Account Number</th>
+                        <th>Balance</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for account in accounts %}
+                    <tr>
+                        <td>{{ account.username }}</td>
+                        <td>{{ account.account_number }}</td>
+                        <td>${{ "{:,.2f}".format(account.balance) }}</td>
+                        <td><span style="color: {{ 'green' if account.status == 'active' else 'red' }}; font-weight: 600;">{{ account.status|capitalize }}</span></td>
+                        <td>
+                            <form action="{{ url_for('toggle_account_status', account_id=account.id) }}" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-sm btn-{{ 'danger' if account.status == 'active' else 'success' }}">
+                                    {{ 'Deactivate' if account.status == 'active' else 'Activate' }}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- All Transactions View -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Global Transaction History ({{ transactions|length }})</h2>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Account No.</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tx in transactions %}
+                    <tr>
+                        <td>{{ tx.id }}</td>
+                        <td>{{ tx.account_number }}</td>
+                        <td><span style="font-weight: 600; color: {{ 'green' if tx.type == 'deposit' else 'red' if tx.type == 'withdrawal' else 'blue' }};">{{ tx.type|capitalize }}</span></td>
+                        <td>${{ "{:,.2f}".format(tx.amount) }}</td>
+                        <td>{{ tx.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ tx.description }} {{ '(To: ' + tx.related_account_number + ')' if tx.type == 'transfer' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>
