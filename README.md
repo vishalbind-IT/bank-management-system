@@ -41,7 +41,7 @@ This project is structured for portfolio display, showcasing **clean separation 
 
 ## Local Setup Guide
 
-## 1. Prerequisites**
+## 1. Prerequisites
 
 -**You must have the following installed on your system:**
 
@@ -53,14 +53,14 @@ This project is structured for portfolio display, showcasing **clean separation 
 
 -**1. Create Database: Log into your MySQL instance and run:**
 
-CREATE DATABASE bank_management_system_db;
+(CREATE DATABASE bank_management_system_db;)
 
 
 -**2. Configure Credentials: Open bank_management_system/app.py and update the database connection details in the app.config section:**
 
-app.config['MYSQL_USER'] = 'your_mysql_user'
-app.config['MYSQL_PASSWORD'] = 'your_mysql_password' # <-- CHANGE THIS
-app.config['MYSQL_DB'] = 'bank_management_system_db'
+(app.config['MYSQL_USER'] = 'your_mysql_user')
+(app.config['MYSQL_PASSWORD'] = 'your_mysql_password' # <-- CHANGE THIS)
+(app.config['MYSQL_DB'] = 'bank_management_system_db')
 
 
 -**3. Run Schema Script: Execute the provided schema file to create tables and seed the initial data:**
