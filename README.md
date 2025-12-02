@@ -49,7 +49,40 @@ This project is structured for portfolio display, showcasing **clean separation 
 
 -**. MySQL Server (version 5.7+)**
 
-## Install Dependencies**:
+## 2. Database Configuration
+
+-**1. Create Database: Log into your MySQL instance and run**:
+
+(CREATE DATABASE bank_management_system_db;)
+
+
+-**2. Configure Credentials: Open bank_management_system/app.py and update the database connection details in the app.config section**:
+
+app.config['MYSQL_USER'] = 'your_mysql_user'
+app.config['MYSQL_PASSWORD'] = 'your_mysql_password' # <-- CHANGE THIS
+app.config['MYSQL_DB'] = 'bank_management_system_db'
+
+
+-**3. Run Schema Script: Execute the provided schema file to create tables and seed the initial data**:
+
+mysql -u [your_user] -p bank_management_system_db < bank_management_system/db.sql
+
+
+## 3. Project Installation
+
+-**1. Clone the Repository**:
+
+git clone [your_repo_url]
+cd bank_management_system
+
+
+-**2. Create Virtual Environment (Recommended)**:
+
+python -m venv venv
+source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+
+
+-**3. Install Dependencies**:
 
 pip install -r requirements.txt
 
@@ -61,4 +94,15 @@ pip install -r requirements.txt
 python app.py
 
 
--**2. Open your browser to**: http://127.0.0.1:5000.
+-**2. Open your browser to** http://127.0.0.1:5000.
+
+---
+## Initial Access
+
+- **Two users are created in the db.sql file for immediate testing**:
+
+**Role**          **Username**          **Password**          **Account No**.          **Initial Balance**
+
+  Admin             admin                adminpass123             N/A                         N/A
+
+  Client            client1              adminpass123           1000000001                   $500.00
