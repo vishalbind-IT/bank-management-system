@@ -59,7 +59,7 @@ This project is structured for portfolio display, showcasing **clean separation 
 
 - **2. Configure Credentials: Open bank_management_system/app.py and update the database connection details in the app.config section**:
 
-      `app.config['MYSQL_USER'] = 'your_mysql_user'`
+       app.config['MYSQL_USER'] = 'your_mysql_user'
 
       `app.config['MYSQL_PASSWORD'] = 'your_mysql_password' # <-- CHANGE THIS`
 
