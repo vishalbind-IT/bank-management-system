@@ -54,49 +54,49 @@ This project is structured for portfolio display, showcasing **clean separation 
 
 - **1. Create Database: Log into your MySQL instance and run**:
 
-      `CREATE DATABASE bank_management_system_db;`
+      CREATE DATABASE bank_management_system_db;
 
 
 - **2. Configure Credentials: Open bank_management_system/app.py and update the database connection details in the app.config section**:
 
-       app.config['MYSQL_USER'] = 'your_mysql_user'
+      app.config['MYSQL_USER'] = 'your_mysql_user'
 
-      `app.config['MYSQL_PASSWORD'] = 'your_mysql_password' # <-- CHANGE THIS`
+      app.config['MYSQL_PASSWORD'] = 'your_mysql_password' # <-- CHANGE THIS
 
-      `app.config['MYSQL_DB'] = 'bank_management_system_db'`
+      app.config['MYSQL_DB'] = 'bank_management_system_db'
 
 
 - **3. Run Schema Script: Execute the provided schema file to create tables and seed the initial data**:
 
-      `mysql -u [your_user] -p bank_management_system_db < bank_management_system/db.sql`
+      mysql -u [your_user] -p bank_management_system_db < bank_management_system/db.sql
 
 ---
 ## 3. Project Installation
 
 - **1. Clone the Repository**:
 
-      `git clone [your_repo_url]`
+      git clone [your_repo_url]
 
-      `cd bank_management_system`
+      cd bank_management_system
 
 
 - **2. Create Virtual Environment (Recommended)**:
 
-       `python -m venv venv`
+       python -m venv venv
 
-       `source venv/bin/activate  # On Windows, use: venv\Scripts\activate`
+       source venv/bin/activate  # On Windows, use: venv\Scripts\activate
 
 
 - **3. Install Dependencies**:
 
-       `pip install -r requirements.txt`
+       pip install -r requirements.txt
 
 ---
 ## 4. Running the Application
 
 - **1. Start the Flask server**:
 
-       `python app.py`
+       python app.py
 
 
 - **2. Open your browser to** `http://127.0.0.1:5000.`
